@@ -13,6 +13,7 @@ public class JavaShortCut {
 //	ctrl+space 자동완성
 //	ctrl+F11 실행
 		
+	System.out.println("단축키 모음입니다.");
 	System.out.println("ctrl+shift+L 단축키");
 	System.out.println("ctrl+ +,- 폰트크기 증가/감소");
 	System.out.println("ctrl+D 한줄 삭제");
