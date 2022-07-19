@@ -30,5 +30,5 @@ class Day2Activity3 {
 //		문자열 = ""(큰 따옴표)
 			String str = "ABC";
 			System.out.println(str);
-		}
 	}
+}
