@@ -15,20 +15,28 @@ class Day2Activity3 {
 // final(상수)을 선언 한 이후에 값을 변경하면 에러가 발생한다.
 	
 //  2.  리터럴의 접두사와 접미사
-//		논리형 = false, true
-//		정수형 = L
+//	정수형 = L
 			long Long = 100L;
 			System.out.println(Long);
-	//  실수형 = f,d
+//  실수형 = f,d
 			double Double = 3.141592d;
 			float Float = 1.1345f;
 			System.out.println(Double);
 			System.out.println(Float);
-//		문자형 = ''(작은 따옴표)
+//	문자형 = ''(작은 따옴표)
 			char ch = 'A';
 			System.out.println(ch);
-//		문자열 = ""(큰 따옴표)
+//	문자열 = ""(큰 따옴표)
 			String str = "ABC";
 			System.out.println(str);
+			
+//	논리형 = false, true
+			boolean kang = true;
+			System.out.println(kang);
+			
+		int oct = 010; //접두사가 0이면 8진수로 처리됨
+		int hex = 0x10; //접두사다 0x면 16진수로 처리됨
+			System.out.println(oct);
+			System.out.println(hex);
 	}
 }
