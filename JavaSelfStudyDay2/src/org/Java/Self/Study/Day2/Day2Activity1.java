@@ -6,5 +6,14 @@ public class Day2Activity1 {
 		System.out.print("printÀº ÇÑÁÙ·Î ³ª¿È");
 		System.out.print("printÀº ÇÑÁÙ·Î ³ª¿È");
 		System.out.print("printÀº ÇÑÁÙ·Î ³ª¿È");
+		System.out.println("printÀº ÇÑÁÙ·Î ³ª¿È");
+		System.out.print("µ¡¼À");
+		System.out.println(3+5);
+		System.out.print("»¬¼À");
+		System.out.println(3-5);
+		System.out.print("°ö¼À");
+		System.out.println(3*5);
+		System.out.print("³ª´°¼À");
+		System.out.println(3/5);
 	}
 }
