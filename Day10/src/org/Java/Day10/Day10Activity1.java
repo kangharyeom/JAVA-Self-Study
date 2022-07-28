@@ -19,19 +19,21 @@ public class Day10Activity1 {
 	
 // 생성자란?
 //	인스턴스가 생설될 깨마다 호출되는 '인스턴스 초기화 매서드'
-	Time t = new Time();
-	t.hour = 12;
-	t.minute = 15;
-	t.second = 11;
-	System.out.println(t);
-	
-	
+//	Time t = new Time();
+//	t.hour = 12;
+//	t.minute = 15;
+//	t.second = 11;
+//	특징
+//		1. 이름이 클래스 이름과 같아야 한다.
+//		2. 리턴값이 없다. (Void 안붙임)
+//		3. 모든 클래스는 반드시 생성자를 가져야 한다. 
+//		=	Time(); 이부분이 생성자 호출 부분이다.
 		
+// 기본생성자?
+//	매개변수가 없는 생성자
+//	생성자가 하나도 없을 때만, 컴파일러가 자동 추가
+		
+
+	
 	}
 }
-	class Time {
-		int hour = 12;
-		int minute = 12;
-		int second = 12;
-		
-	}
