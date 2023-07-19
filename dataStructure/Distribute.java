@@ -1,4 +1,4 @@
-package Java;
+package dataStructure;
 
 public class Distribute {
     public static void main(String[] args) {
