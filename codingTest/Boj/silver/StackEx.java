@@ -1,4 +1,4 @@
-package Boj;
+package Boj.silver;
 
 import java.io.BufferedReader;
 import java.io.IOException;
