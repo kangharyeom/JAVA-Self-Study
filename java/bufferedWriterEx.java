@@ -4,10 +4,18 @@ import java.io.OutputStreamWriter;
 
 public class bufferedWriterEx {
     public static void main(String[] args) throws IOException {
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));   //할당된 버퍼에 값 넣어주기
-        String s = "abcd";   //출력할 문자열
-        bw.write(s+"\n");   //버퍼에 있는 값을 출력함
-        bw.flush();   //남아있는 데이터를 모두 출력
-        bw.close();   //스트림을 닫음
+        String ctn = "010011111111";
+        String maskedCtn = ctn.substring(0, 4) + "****" + ctn.substring(ctn.length()-4, ctn.length());
+        System.out.println(maskedCtn);
+
+        String custNo = "12345678987654321";
+        StringBuffer asterisk = new StringBuffer();
+        for (int i = 0; i<custNo.length() - 8; i++) {
+            asterisk.append("*");
+        }
+        String maskedCustNo = custNo.substring(0, 4) + asterisk + custNo.substring(custNo.length()-4, custNo.length());
+        System.out.println(maskedCustNo);
     }
+
+
 }
