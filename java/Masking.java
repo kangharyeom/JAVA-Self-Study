@@ -1,15 +1,25 @@
 import java.io.IOException;
 
 public class Masking {
-    private static String ctn = "010011111111";
-    private static String custNo = "12345678987654321";
+    private static String ctn = "";
+    private static String custNo = "";
     private static String userName = "최고다우리모두";
     public static void main(String[] args) throws IOException {
         /*
          * ctn 마스킹
          * */
-        String maskedCtn = ctn.substring(0, 4) + "****" + ctn.substring(ctn.length() - 4, ctn.length());
-        System.out.println(maskedCtn);
+        String maskedCtn = "";
+        try {
+            if (ctn.length() <= 4 && ctn != null) {
+                System.out.println("normal"+ctn);
+            } else {
+                maskedCtn = ctn.substring(0, 4) + "****" + ctn.substring(ctn.length() - 4, ctn.length());
+                System.out.println(maskedCtn);
+            }
+        } catch (Exception e) {
+                System.out.println("error"+maskedCtn);
+        }
+
 
         StringBuffer asterisk = new StringBuffer();
         for (int i = 0; i < custNo.length() - 8; i++) {
@@ -19,8 +29,20 @@ public class Masking {
         /*
          * CUST_NO 마스킹
          * */
-        String maskedCustNo = custNo.substring(0, 4) + asterisk + custNo.substring(custNo.length() - 4, custNo.length());
+        StringBuffer asterisk2 = new StringBuffer();
+        if (custNo.length() <= 4) {
+            System.out.println(custNo);
+        } else {
+            for (int i = 0; i < custNo.length() - 4; i++) {
+                asterisk2.append("*");
+            }
+        String maskedCustNo = asterisk2 + custNo.substring(custNo.length() - 4, custNo.length());
         System.out.println(maskedCustNo);
+        }
+
+//        String maskedCustNo =
+//                custNo.substring(0, 4) + asterisk + custNo.substring(custNo.length() - 4, custNo.length());
+//        System.out.println(maskedCustNo);
 
         /*
          * USER_NAME 마스킹
