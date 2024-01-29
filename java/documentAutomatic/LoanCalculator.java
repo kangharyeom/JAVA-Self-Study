@@ -1,10 +1,8 @@
 package documentAutomatic;
 
+import java.util.Scanner;
+
 public class LoanCalculator {
-    static double totalCost = 20000 * (10000.d); // 필요 보증금
-    static double monthCost = 30 * (10000.d); // 필요 월세
-    static double budget = 2000 * (10000.d); // 자본금
-    static double managementCost = 15 * (10000.d); // 관리비
     static double creditInterestRate = 0.067; // 신용대출 이자율
     static double rate7 = 0.7; // 비율
     static double rate8 = 0.8; // 비율
@@ -36,16 +34,27 @@ public class LoanCalculator {
 
 
     public static void main(String[] args) {
-        calculator("중기청",j, rate8, loanInterestRateJ, creditInterestRate);
-        calculator("버팀목",b, rate7, loanInterestRateB, creditInterestRate);
-        calculator("청년 버팀목",cB, rate8, loanInterestRateCb, creditInterestRate);
-        calculator("신혼부부",cB, rate8, loanInterestRateS, creditInterestRate);
-        calculator("카카오뱅크",kJ, rate8, loanInterestRateKj, creditInterestRate);
-        calculator("카카오뱅크 청년",kCj, rate9, loanInterestRateKcj, creditInterestRate);
+        Scanner sc = new Scanner(System.in);
+        System.out.print("보증금을 입력하시오 : ");
+        double totalCost = sc.nextInt() * 10000.d;
+        System.out.print("월세를 입력하시오 : ");
+        double monthCost = sc.nextInt() * 10000.d;
+        System.out.print("관리비를 입력하시오 : ");
+        double managementCost = sc.nextInt() * 10000.d;
+        System.out.print("자본금을 입력하시오 : ");
+        double budget = sc.nextInt() * 10000.d;
+
+        calculator("중기청",j, rate8, loanInterestRateJ, creditInterestRate, totalCost, monthCost, budget, managementCost);
+        calculator("버팀목",b, rate7, loanInterestRateB, creditInterestRate, totalCost, monthCost, budget, managementCost);
+        calculator("청년 버팀목",cB, rate8, loanInterestRateCb, creditInterestRate, totalCost, monthCost, budget, managementCost);
+        calculator("신혼부부",cB, rate8, loanInterestRateS, creditInterestRate, totalCost, monthCost, budget, managementCost);
+        calculator("카카오뱅크",kJ, rate8, loanInterestRateKj, creditInterestRate, totalCost, monthCost, budget, managementCost);
+        calculator("카카오뱅크 청년",kCj, rate9, loanInterestRateKcj, creditInterestRate, totalCost, monthCost, budget, managementCost);
 
     }
 
-    private static Double calculator(String loanName,Double loanCost ,Double rate, Double loanInterest, Double creditInterestRate) {
+    private static void calculator(String loanName, double loanCost , double rate, double loanInterest, double creditInterestRate,
+                                   double totalCost, double monthCost, double budget, double managementCost) {
         double loan ; // 대출금
         double creditInterestCost ; // 신용대출 이자 비용
 
@@ -61,7 +70,7 @@ public class LoanCalculator {
         // 대출 이자 계산
         double loanInterestCost = (loan * loanInterest)/12;
 
-        // 신용 대출 이자 계산
+        // 신용 대출 이자 비용 계산
         if (totalCost - loan - budget <= 0) {
             creditInterestCost = 0.d;
         } else {
@@ -71,8 +80,9 @@ public class LoanCalculator {
         // 월 비용 총액 계산
         double totalMonthCost = loanInterestCost + creditInterestCost + monthCost + managementCost;
 
+        double totalLoan = totalCost - loan - budget;
+        System.out.println("신용대출 필요 금액 : "+(int)(totalLoan/10000)+"만원");
         System.out.println("월세 총액:"+ (int)(totalMonthCost/10000)+"만 "+((int)(totalMonthCost%10000)+"원"));
         System.out.println("########################");
-        return totalMonthCost;
     }
 }
