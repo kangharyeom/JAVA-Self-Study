@@ -1,5 +1,3 @@
-package documentAutomatic;
-
 import java.util.Scanner;
 
 public class LoanCalculator {

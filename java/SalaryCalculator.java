@@ -1,7 +1,7 @@
 import java.text.DecimalFormat;
 import java.util.Stack;
 
-public class Calculator {
+public class SalaryCalculator {
     public static void main(String[] args) {
 
         DecimalFormat df = new DecimalFormat("###,###");
