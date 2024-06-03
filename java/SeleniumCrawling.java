@@ -7,7 +7,11 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -15,53 +19,47 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class SeleniumCrawling {
     public static final String WEB_DRIVER_ID = "webdriver.chrome.driver"; //드라이버 ID
     public static final String WEB_DRIVER_PATH = "C:\\Users\\PC\\Downloads\\chromedriver\\chromedriver.exe"; //드라이버 경로
     public static final String DOWNLOAD_FOLDER_NAME = "GoogleImages"; // 다운로드 폴더 이름
-    public static final String DOWNLOAD_FOLDER_PATH = "C:\\Users\\PC\\Downloads\\"+ DOWNLOAD_FOLDER_NAME; //다운로드 폴더 경로
+    public static final String DOWNLOAD_FOLDER_PATH = "C:\\Users\\PC\\Downloads\\" + DOWNLOAD_FOLDER_NAME; //다운로드 폴더 경로
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("검색어를 입력하시오 : ");
-        String search = sc.nextLine();
-        // ChromeDriver의 위치를 지정
-        try {
+        try (Scanner sc = new Scanner(System.in)) {
+            System.out.print("검색어를 입력하시오 : ");
+            String search = sc.nextLine();
+
             System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
+
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("headless");
+            WebDriver driver = new ChromeDriver(options);
+
+            String url = "https://www.google.com/search?q=" + search + "&tbm=isch";
+
+            driver.get(url);
+
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+            List<WebElement> imgElements = driver.findElements(By.tagName("img"));
+
+            for (WebElement imgElement : imgElements) {
+                String imgUrl = imgElement.getAttribute("src");
+                downloadImage(imgUrl);
+            }
+
+            driver.quit();
         } catch (Exception e) {
+            System.err.println("An error occurred:");
             e.printStackTrace();
         }
-        // headless mode로 ChromeDriver를 실행
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("headless");
-        WebDriver driver = new ChromeDriver(options);
-
-        // 사용할 url
-        String url = "https://www.google.com/search?q=" + search + "&tbm=isch";
-
-        driver.get(url);
-
-        //브라우저 이동시 생기는 로드시간을 기다린다.
-        //HTTP응답속도보다 자바의 컴파일 속도가 더 빠르기 때문에 임의적으로 1초를 대기한다.
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-        }
-
-        // 이미지 요소를 선택
-        List<WebElement> imgElements = driver.findElements(By.cssSelector("img.rg_i"));
-
-        for (WebElement imgElement : imgElements) {
-            String imgUrl = imgElement.getAttribute("src");
-            downloadImage(imgUrl, DOWNLOAD_FOLDER_PATH);
-        }
-
-        driver.quit();
     }
 
 
-    private static void downloadImage(String imgUrl, String downloadFolderPath) {
+    private static void downloadImage(String imgUrl) {
         try {
             String fileName;
             InputStream in;
@@ -87,20 +85,26 @@ public class SeleniumCrawling {
             } else {
                 URL url = new URL(imgUrl);
                 in = url.openStream();
-                fileName = imgUrl.substring(imgUrl.lastIndexOf("/") + 1).replaceAll("[^a-zA-Z0-9.-]", "_");
+                fileName = URLEncoder.encode(imgUrl.substring(imgUrl.lastIndexOf("/") + 1), StandardCharsets.UTF_8.toString());
             }
 
-            Path folderPath = Path.of(downloadFolderPath);
+            Path folderPath = Path.of(DOWNLOAD_FOLDER_PATH);
             if (!Files.exists(folderPath)) {
                 Files.createDirectories(folderPath);
             }
 
             Path targetPath = folderPath.resolve(fileName);
-            Files.copy(in, targetPath, StandardCopyOption.REPLACE_EXISTING);
+            try (InputStream finalIn = in) {
+                Files.copy(finalIn, targetPath, StandardCopyOption.REPLACE_EXISTING);
+            }
 
             System.out.println("Downloaded: " + fileName);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

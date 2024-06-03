@@ -13,7 +13,7 @@ import java.nio.file.StandardCopyOption;
 
 public class ImageScraper {
     public static void main(String[] args) {
-        String searchTerm = "강아지";
+        String searchTerm = "레디스 마스터 슬레이브";
         int numPages = 3; // 크롤링할 페이지 수
 
         // 다운로드할 폴더를 지정
